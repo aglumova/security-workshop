@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS app_user
+(
+  id SERIAL NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  PRIMARY KEY(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS student
+(
+  id SERIAL NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  dob DATE,
+  PRIMARY KEY(id)
+);

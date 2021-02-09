@@ -1,1 +1,0 @@
-# web-security-workshop

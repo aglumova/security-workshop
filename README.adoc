@@ -1,0 +1,8 @@
+= SQL Injection test in Java
+
+Testing SQL injection in Java.
+
+== References
+
+* https://www.owasp.org/index.php/SQL_Injection[SQL Injection] (OWASP)
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md[SQL_Injection_Prevention_Cheat_Sheet]

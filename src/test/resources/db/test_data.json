@@ -1,0 +1,40 @@
+{
+  "app_user": [
+    {
+      "id": 1,
+      "name": "Toto",
+      "password": "t0t0#$"
+    },
+    {
+      "id": 2,
+      "name": "Donald",
+      "password": "ducKG0lf"
+    },
+    {
+      "id": 3,
+      "name": "Barrack",
+      "password": "WiiCan"
+    },
+    {
+      "id": 4,
+      "name": "Nicolas",
+      "password": "$hark"
+    },
+    {
+      "id": 5,
+      "name": "Dona'ld",
+      "password": "No#Inject"
+    }
+  ],
+  "student": [
+    {
+      "id": 1,
+      "name": "Toto"
+    },
+    {
+      "id": 2,
+      "name": "Bob",
+      "dob": "1975-12-31"
+    }
+  ]
+}

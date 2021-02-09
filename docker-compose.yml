@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  web-security-ws:
+    image: "web-security-ws:latest"
+    container_name: web-security-ws
+    environment:
+      _JAVA_OPTIONS: -Xmx256m -Xms256m -XX:+PrintFlagsFinal
+    depends_on:
+      - postgres
+    ports:
+      - '8480:8080'
+
+  postgres:
+    image: postgres:12-alpine
+    container_name: postgres12
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: ws
+    ports:
+      - '8432:5432'
