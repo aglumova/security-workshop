@@ -1,8 +1,32 @@
-= SQL Injection test in Java
+= Web Security Workshop
 
-Testing SQL injection in Java.
+The current repository contains top 10 Web Application Security Risks examples.
 
-== References
+* https://owasp.org/www-project-top-ten[OWASP Top 10]
+
+== Requirements to run tests on Java
+
+* Docker
+* Java 11+
+
+== SQL Injection
+
+=== Tests
+
+* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/sql[SQL Injection Tests in Java]
+
+=== References
 
 * https://www.owasp.org/index.php/SQL_Injection[SQL Injection] (OWASP)
-* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md[SQL_Injection_Prevention_Cheat_Sheet]
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md[SQL Injection Prevention Cheat Sheet]
+
+== LDAP Injection
+
+=== Tests
+
+* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/ldap[LDAP Injection Tests in Java]
+
+=== References
+
+* https://owasp.org/www-community/attacks/LDAP_Injection[LDAP Injection] (OWASP)
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/LDAP_Injection_Prevention_Cheat_Sheet.md[LDAP Injection Prevention Cheat Sheet]

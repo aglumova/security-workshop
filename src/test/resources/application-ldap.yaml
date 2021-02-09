@@ -1,0 +1,11 @@
+spring:
+  ldap:
+    embedded:
+      base-dn: dc=aglumova,dc=com
+      credential:
+        username: uid=admin
+        password: secret
+      ldif: classpath:ldap/test-schema.ldif
+      port: 12345
+      validation:
+        enabled: false
