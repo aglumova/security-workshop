@@ -74,3 +74,64 @@ An excellent compromise between encrypting everything and encrypting nothing. We
 
 * https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication[Broken Authentication] (OWASP)
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Authentication_Cheat_Sheet.md[Authentication Cheat Sheet]
+
+=== Sensitive Data Exposure
+
+==== Tests
+
+
+==== References
+
+* https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure[Sensitive Data Exposure] (OWASP)
+
+=== Broken Access Control
+
+==== Tests
+
+
+==== References
+
+* https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control[Broken Access Control] (OWASP)
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Access_Control_Cheat_Sheet.md[Access Control Cheat Sheet]
+
+=== Security Misconfiguration
+
+==== Tests
+
+
+==== References
+
+* https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration[Security Misconfiguration] (OWASP)
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Database_Security_Cheat_Sheet.md[Database Security Cheat Sheet]
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Microservices_security.md[Microservice Security Cheat Sheet]
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/REST_Security_Cheat_Sheet.md[REST Security Cheat Sheet]
+
+=== Cross-Site Scripting (XSS)
+
+==== Tests
+
+
+==== References
+
+* https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)[Cross-Site Scripting (XSS)] (OWASP)
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md[Cross Site Scripting Prevention Cheat Sheet]
+
+=== Insecure Deserialization
+
+==== Tests
+
+
+==== References
+
+* https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization[Insecure Deserialization] (OWASP)
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Deserialization_Cheat_Sheet.md[Insecure Deserialization Cheat Sheet]
+
+=== Insecure Direct Object References
+
+==== Tests
+
+
+==== References
+
+* https://owasp.org/www-chapter-ghana/assets/slides/IDOR.pdf[Insecure Direct Object References] (OWASP)
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.md[Insecure Direct Object Reference Prevention Cheat Sheet]

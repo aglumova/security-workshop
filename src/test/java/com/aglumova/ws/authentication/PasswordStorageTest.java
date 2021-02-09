@@ -1,6 +1,8 @@
 package com.aglumova.ws.authentication;
 
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +24,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -45,7 +48,6 @@ public class PasswordStorageTest {
   @Autowired
   private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-  // The worst case: we store sensitive information without any encryption.
   @Test
   public void checkUserPasswordWithoutEncryption_worst_case() {
     final String login = "Test_Pass_Without_Enc";
@@ -62,21 +64,76 @@ public class PasswordStorageTest {
     assertThat(results.get(0)).isEqualTo(password);
   }
 
-  // The normal case: We store sensitive information with fixed salt encryption.
   @Test
-  public void checkUserPasswordWithFixedSaltEncryption_normal_case() {
-    final String login = "Test_Pass_With_Fixed_Salt_Enc";
+  public void checkUserPasswordWithMd5Hash_bad_case() {
+    final String login = "Test_Pass_Md5";
     final String password = "admin";
     final String insertSql = "INSERT INTO app_user(name, password) VALUES(:name, :password) RETURNING *";
     namedParameterJdbcTemplate
-      .query(insertSql, Map.of("name", login, "password", fixedSaltHash(password)), createSingleStringRowMapper());
+      .query(insertSql, Map.of("name", login, "password", md5Hex(password)), createSingleStringRowMapper());
 
     final String selectSql = "SELECT password FROM app_user WHERE name = :name";
     final List<String> results = namedParameterJdbcTemplate
       .query(selectSql, Map.of("name", login), (rs, rowNum) -> rs.getString(1));
 
     assertThat(results).hasSize(1);
-    assertThat(results.get(0)).isNotEqualTo(password);
+    assertThat(results.get(0)).isEqualTo(md5Hex(password));
+  }
+
+  @Test
+  public void checkUserPasswordWithSha52FixedSaltHash_normal_case() {
+    final String login = "Test_Pass_With_Sha512_Fixed_Salt_Enc";
+    final String password = "admin";
+    final String insertSql = "INSERT INTO app_user(name, password) VALUES(:name, :password) RETURNING *";
+    namedParameterJdbcTemplate
+      .query(
+        insertSql,
+        Map.of("name", login, "password", getSHA512SecurePassword(password, "123")),
+        createSingleStringRowMapper());
+
+    final String selectSql = "SELECT password FROM app_user WHERE name = :name";
+    final List<String> results = namedParameterJdbcTemplate
+      .query(selectSql, Map.of("name", login), (rs, rowNum) -> rs.getString(1));
+
+    assertThat(results).hasSize(1);
+    assertThat(results.get(0)).isEqualTo(getSHA512SecurePassword(password, "123"));
+  }
+
+  @Test
+  public void checkUserPasswordWithSeveralHashIteration_good_case() {
+    final String login = "Test_Pass_With_Several_Hash_Iteration";
+    final String password = "admin";
+    final String firstIteration = getSHA512SecurePassword(password, "123");
+    final String secondIteration = getSHA512SecurePassword(firstIteration, null);
+    final String insertSql = "INSERT INTO app_user(name, password) VALUES(:name, :password) RETURNING *";
+    namedParameterJdbcTemplate
+      .query(
+        insertSql,
+        Map.of("name", login, "password", secondIteration),
+        createSingleStringRowMapper());
+
+    final String selectSql = "SELECT password FROM app_user WHERE name = :name";
+    final List<String> results = namedParameterJdbcTemplate
+      .query(selectSql, Map.of("name", login), (rs, rowNum) -> rs.getString(1));
+
+    assertThat(results).hasSize(1);
+    assertThat(results.get(0)).isEqualTo(getSHA512SecurePassword(getSHA512SecurePassword(password, "123"), null));
+  }
+
+  @Test
+  public void checkUserPasswordWithBcryptFixedSaltEncryption_best_case() {
+    final String login = "Test_Pass_With_BCrypt_Fixed_Salt_Enc";
+    final String password = "admin";
+    final String insertSql = "INSERT INTO app_user(name, password) VALUES(:name, :password) RETURNING *";
+    namedParameterJdbcTemplate
+      .query(
+        insertSql, Map.of("name", login, "password", bcryptFixedSaltHash(password)), createSingleStringRowMapper());
+
+    final String selectSql = "SELECT password FROM app_user WHERE name = :name";
+    final List<String> results = namedParameterJdbcTemplate
+      .query(selectSql, Map.of("name", login), (rs, rowNum) -> rs.getString(1));
+
+    assertThat(results).hasSize(1);
     assertThat(
       BCrypt.verifyer(Version.VERSION_2A)
         .verify(password.getBytes(StandardCharsets.UTF_8), results.get(0).getBytes(StandardCharsets.UTF_8))
@@ -84,22 +141,20 @@ public class PasswordStorageTest {
     ).isTrue();
   }
 
-  // The best case: We store sensitive information with dynamic salt encryption.
   @Test
-  public void checkUserPasswordWithDynamicSaltEncryption_best_case() {
-    final String login = "Test_Pass_With_Dynamic_Salt_Enc";
+  public void checkUserPasswordWithBcryptDynamicSaltEncryption_best_case() {
+    final String login = "Test_Pass_With_Bcrypt_Dynamic_Salt_Enc";
     final String password = "admin";
     final String insertSql = "INSERT INTO app_user(name, password) VALUES(:name, :password) RETURNING *";
     namedParameterJdbcTemplate
-      .query(insertSql, Map.of("name", login, "password", dynamicSaltHash(password)), createSingleStringRowMapper());
+      .query(
+        insertSql, Map.of("name", login, "password", bcryptDynamicSaltHash(password)), createSingleStringRowMapper());
 
     final String selectSql = "SELECT password FROM app_user WHERE name = :name";
     final List<String> results = namedParameterJdbcTemplate
       .query(selectSql, Map.of("name", login), (rs, rowNum) -> rs.getString(1));
 
     assertThat(results).hasSize(1);
-    assertThat(results.get(0)).isNotEqualTo(password);
-    assertThat(results.get(0)).isNotEqualTo(password);
     assertThat(
       BCrypt.verifyer(Version.VERSION_2A)
         .verify(password.getBytes(StandardCharsets.UTF_8), results.get(0).getBytes(StandardCharsets.UTF_8))
@@ -107,18 +162,35 @@ public class PasswordStorageTest {
     ).isTrue();
   }
 
-  private String dynamicSaltHash(final String value) {
+  private String bcryptDynamicSaltHash(final String value) {
     final byte[] hash = BCrypt
       .withDefaults()
       .hash(6, value.getBytes(StandardCharsets.UTF_8));
     return new String(hash, StandardCharsets.UTF_8);
   }
 
-  private String fixedSaltHash(final String value) {
+  private String bcryptFixedSaltHash(final String value) {
     final byte[] hash = BCrypt
       .withDefaults()
       .hash(6, "saltsaltsaltsalt".getBytes(StandardCharsets.UTF_8), value.getBytes(StandardCharsets.UTF_8));
     return new String(hash, StandardCharsets.UTF_8);
+  }
+
+  private String getSHA512SecurePassword(final String passwordToHash, final String salt) {
+    try {
+      final MessageDigest md = MessageDigest.getInstance("SHA-512");
+      if (salt != null) {
+        md.update(salt.getBytes(StandardCharsets.UTF_8));
+      }
+      final byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+      final StringBuilder sb = new StringBuilder();
+      for (byte aByte : bytes) {
+        sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+      }
+      return sb.toString();
+    } catch (final NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private static RowMapper<String> createSingleStringRowMapper() {
