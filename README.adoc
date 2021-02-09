@@ -111,9 +111,9 @@ TBD
 
 == Cross-Site Scripting (XSS)
 
-=== Tests
+=== Example
 
-TBD
+** https://github.com/aglumova/web-security-workshop/tree/main/src/test/resources/xss[XSS Example]
 
 === References
 

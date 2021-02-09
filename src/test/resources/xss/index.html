@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>XSS Challenge</title>
+
+
+    <style>
+        body {
+            background: linear-gradient(to right, #cbffcb, #fbb0a9);
+        }
+
+        h1 {
+            font-size: 36px;
+            font-family: OCR A Std, monospace;
+        }
+
+        #radioButtons {
+            font-size: 18px;
+        }
+
+        h4 {
+            margin-bottom: 2px;
+        }
+
+        p {
+            margin-top: 1px;
+        }
+
+        #wrapper-div {
+            margin: 5%;
+            text-align: center;
+            align-content: center;
+            display: block;
+        }
+
+        #alert-box {
+            background-color: #ededed;
+            position: relative;
+            width: 33%;
+            height: 200px;
+            border: 1px solid grey;
+            margin: auto;
+            padding: 20px 10px 10px;
+        }
+
+        #confirm {
+            background-color: #e5e5e5;
+            position: absolute;
+            right: 0;
+            width: 100%;
+            height: 50px;
+            bottom: 0;
+        }
+
+        #confirm-button {
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #ededed;
+            display: block;
+            margin: 0 auto;
+            position: absolute;
+            top: 25%;
+            right: 20px;
+            width: 65px;
+        }
+
+        .input {
+            position: relative;
+            top: 25%;
+        }
+
+        #input {
+            width: 75%;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+<div id="wrapper-div">
+    <h1>XSS Challenge</h1>
+    <div id="alert-box">
+        <label class="input" for="input">Input XSS Code</label>
+        <br>
+        <br>
+        <input type="text" id="input" class="input">
+        <br><br>
+        <br>
+        <div id="confirm">
+            <button id="confirm-button">OK</button>
+        </div>
+    </div>
+    <br>
+
+    <div id="radioButtons">
+        <label for="chal-1">#1</label>
+        <input type="radio" name="challenge" id="chal-1">&nbsp
+        <label for="chal-2">#2</label>
+        <input type="radio" name="challenge" id="chal-2">&nbsp
+        <label for="chal-3">#3</label>
+        <input type="radio" name="challenge" id="chal-3">
+    </div>
+
+    <h4 id="code-title">Please select a challenge number and attempt to inject a JavaScript alert.</h4>
+    <code id="code"></code>
+    <br>
+    <h4 id="rules"></h4>
+    <p id="ruleLine"></p>
+    <div id="output"></div>
+</div>
+
+<script>
+    const input = document.querySelector("#input");
+    const button = document.querySelector("button");
+    const output = document.querySelector("#output");
+    const radioButtons = document.querySelector("#radioButtons");
+    const codeTitle = document.querySelector("#code-title");
+    const code = document.querySelector("#code");
+    const chal1 = document.querySelector("#chal-1");
+    const chal2 = document.querySelector("#chal-2");
+    const chal3 = document.querySelector("#chal-3");
+    const rules = document.querySelector("#rules");
+    const ruleLine = document.querySelector("#ruleLine");
+
+    function xssChallenge() {
+        code.textContent = "";
+        inputV = input.value.toLowerCase();
+        if (chal1.checked) {
+            codeOutput(`<h2>${inputV}</h2>`);
+        } else if (chal2.checked) {
+            inputV = inputV.replace(/>|(”)|(“)|(")|</g, "");
+            codeOutput(`<a href=\"${inputV}\">Click Me</a>`);
+        } else if (chal3.checked) {
+            inputV = inputV.replace(/>|</g, "");
+            inputV = inputV.replace(/(“)|(”)/g, '"');
+            codeOutput(`<img src=\"${inputV}\">`);
+        }
+    }
+
+    function codeOutput(outputCode) {
+        codeTitle.textContent = "Output Code:";
+        output.innerHTML = outputCode;
+        code.textContent = outputCode;
+    }
+
+    function codeSelection() {
+        code.textContent = "";
+        output.textContent = "";
+        if (chal1.checked) {
+            codeSnippet(`<h2>[variable]</h2>`);
+            rulesDisplay('Script (<script>, <style>) tags. Example: <style>body {background: linear-gradient(to right, #cb1fcb, #f1b0a9);}</style>');
+        } else if (chal2.checked) {
+            codeSnippet(`<a href="[variable]">Click Me</a>`);
+            rulesDisplay('Double quotes (") and angle brackets (< , >). Example: javascript:alert(2)');
+        } else if (chal3.checked) {
+            codeSnippet(`<img src="[variable]">`);
+            rulesDisplay('Angle brackets (< , >). Example: sad" onclick="alert(3)" autofocus="');
+        } else {
+            codeSnippet(`Please select a challenge number.`);
+        }
+    }
+
+    function codeSnippet(codeSnip) {
+        codeTitle.textContent = "Code Selection:";
+        code.textContent = codeSnip;
+    }
+
+    function rulesDisplay(rule) {
+        rules.textContent = "Filters:";
+        ruleLine.textContent = `- ${rule}`;
+    }
+
+    button.addEventListener("click", xssChallenge);
+    radioButtons.addEventListener("click", codeSelection);
+</script>
+</body>
+</html>
