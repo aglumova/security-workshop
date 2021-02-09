@@ -9,24 +9,68 @@ The current repository contains top 10 Web Application Security Risks examples.
 * Docker
 * Java 11+
 
-== SQL Injection
+== Injection flaws
 
-=== Tests
+Injection flaws result from a classic failure to filter untrusted input. It can happen when you pass unfiltered data to the SQL server (SQL injection), to the browser (XSS), to the LDAP server (LDAP injection), or anywhere else. The problem here is that the attacker can inject commands to these entities, resulting in loss of data and hijacking clients’ browsers.
+Anything that your application receives from untrusted sources must be filtered, preferably according to a whitelist. You should almost never use a blacklist, as getting that right is very hard and usually easy to bypass. Antivirus software products typically provide stellar examples of failing blacklists. Pattern matching does not work.
 
-* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/sql[SQL Injection Tests in Java]
+=== SQL Injection
 
-=== References
+==== Tests
+
+* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/sql[SQL Injection Tests]
+
+==== References
 
 * https://www.owasp.org/index.php/SQL_Injection[SQL Injection] (OWASP)
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.md[SQL Injection Prevention Cheat Sheet]
 
-== LDAP Injection
+=== LDAP Injection
 
-=== Tests
+==== Tests
 
-* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/ldap[LDAP Injection Tests in Java]
+* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/ldap[LDAP Injection Tests]
 
-=== References
+==== References
 
 * https://owasp.org/www-community/attacks/LDAP_Injection[LDAP Injection] (OWASP)
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/LDAP_Injection_Prevention_Cheat_Sheet.md[LDAP Injection Prevention Cheat Sheet]
+
+=== Broken Authentication
+
+This is a collection of multiple problems that might occur during broken authentication, but they don’t all stem from the same root cause.
+
+Possible pitfalls:
+
+- The URL might contain the session id and leak it in the referer header to someone else.
+- The passwords might not be encrypted either in storage or transit.
+- The session ids might be predictable, thus gaining access is trivial.
+- Session hijacking might be possible, timeouts not implemented right or using HTTP (no SSL security).
+- etc.
+
+*Session hijacking*
+
+Session hijacking, also known as session fixation, is a neat exploit. It relies on the fact that HTTP is a stateless protocol and users must identify themselves to servers on every request with a shared session id, which is typically stored as a cookie. The core of the attack relies on obtaining that session id and then setting your own session id to that value. This lets you "steal" another user's session and impersonate them.
+
+*Three common protection strategies against session fixation*
+
+- Only use HTTPS
+
+This is a viable strategy and is used by many popular websites. For example, Facebook will now only serve you pages via HTTPS, which prevents any fixation from happening as all traffic is encrypted (including the session id) and cannot be decoded by a third party. Of course, this has the downside that all traffic must be served via HTTPS, which increases processing overhead, network traffic, and makes caches much less effective. For many sites that deal with sensitive information, this is an acceptable cost.
+
+*Once a user logs in, enforce HTTPS for future traffic.*
+
+This is the most popular mechanism to prevent hijacking. With this strategy, you concede to showing users pages via HTTP as you normally would. However, once they authenticate, you invalidate their previous HTTP session and switch over to an HTTPS session. This means that every single page they see after they login must be HTTPS.
+
+*Secure HTTPS traffic with a secondary cookie*
+
+An excellent compromise between encrypting everything and encrypting nothing. We begin by establishing a normal HTTP session for a user when they first visit the site and allow them to view pages over HTTP. However, as soon as the user sees an HTTPS page, we set a secondary, HTTPS session id cookie without invalidating their previous session. Once the HTTPS cookie is set, every time that user requests an HTTPS, we validate not only the normal session id cookie, but also the secondary one. Therefore, a session hijacker would not be able to see any information that is served through HTTPS, as all sensitive information and actions should be!
+
+==== Tests
+
+** https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/authentication[Authentication Tests]
+
+==== References
+
+* https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication[Broken Authentication] (OWASP)
+* https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Authentication_Cheat_Sheet.md[Authentication Cheat Sheet]

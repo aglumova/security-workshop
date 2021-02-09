@@ -19,7 +19,6 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -57,8 +56,6 @@ public class SqlInjectionTest {
     final List<String> results = jdbcTemplate.query(sql, createSingleStringRowMapper());
 
     assertThat(results).isNotEmpty();
-
-    results.forEach(log::debug);
   }
 
   @Test
@@ -69,8 +66,6 @@ public class SqlInjectionTest {
     final List<String> results = jdbcTemplate.query(sql, createSingleStringRowMapper());
 
     assertThat(results).hasSize(1);
-
-    results.forEach(log::debug);
   }
 
   @Test(expected = BadSqlGrammarException.class)
@@ -92,8 +87,6 @@ public class SqlInjectionTest {
     final List<String> results = jdbcTemplate.query(sql, createSingleStringRowMapper());
 
     assertThat(results.size()).isGreaterThanOrEqualTo(4);
-
-    results.forEach(log::debug);
   }
 
   @Test
@@ -104,8 +97,6 @@ public class SqlInjectionTest {
     final List<String> results = namedParameterJdbcTemplate.query(sql, Map.of("name", param), createSingleStringRowMapper());
 
     assertThat(results).hasSize(1);
-
-    results.forEach(log::debug);
   }
 
   @Test
@@ -117,8 +108,6 @@ public class SqlInjectionTest {
 
     assertThat(results).hasSize(1);
     assertThat(results.get(0)).startsWith("5 - Dona'ld -");
-
-    results.forEach(log::debug);
   }
 
   @Test
