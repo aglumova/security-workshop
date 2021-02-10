@@ -17,22 +17,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
-        <wrap.image.name>${env.WS_IMAGE_NAME}</wrap.image.name>
-        <wrap.image.tag>${env.WS_IMAGE_TAG}</wrap.image.tag>
 
-        <git.commit.id.maven.plugin.version>4.0.3</git.commit.id.maven.plugin.version>
         <compiler.maven.plugin.version>3.8.1</compiler.maven.plugin.version>
         <surefire.maven.plugin.version>2.22.2</surefire.maven.plugin.version>
-        <checkstyle.maven.plugin.version>3.1.2</checkstyle.maven.plugin.version>
-        <jib.maven.plugin.version>2.7.1</jib.maven.plugin.version>
 
         <postgresql.version>42.2.18</postgresql.version>
         <org.apache.commons.commons-collections4.version>4.4</org.apache.commons.commons-collections4.version>
         <org.apache.commons.commons-lang3.version>3.11</org.apache.commons.commons-lang3.version>
         <org.apache.commons.org.commons-text>1.9</org.apache.commons.org.commons-text>
-        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
         <org.lombok.version>1.18.18</org.lombok.version>
-        <springfox.version>2.9.2</springfox.version>
         <com.jackson.version>2.11.0</com.jackson.version>
         <versions.maven.plugin.version>2.8.1</versions.maven.plugin.version>
 
@@ -44,36 +37,7 @@
         <dbrider.spring.version>1.22.0</dbrider.spring.version>
 
         <flywaycore.version>7.5.2</flywaycore.version>
-
-        <git-commit-id-plugin.skip>false</git-commit-id-plugin.skip>
-
     </properties>
-
-    <profiles>
-        <profile>
-            <id>ws-image-name-default-fallback</id>
-            <activation>
-                <property>
-                    <name>!env.WS_IMAGE_NAME</name>
-                </property>
-            </activation>
-            <properties>
-                <wrap.image.name>web-security-ws</wrap.image.name>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>ws-image-tag-default-fallback</id>
-            <activation>
-                <property>
-                    <name>!env.WS_IMAGE_TAG</name>
-                </property>
-            </activation>
-            <properties>
-                <wrap.image.tag>${git.commit.id.abbrev}</wrap.image.tag>
-            </properties>
-        </profile>
-    </profiles>
 
     <dependencies>
         <dependency>
@@ -146,12 +110,6 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <exclusions>
                 <exclusion>
@@ -185,12 +143,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${com.jackson.version}</version>
@@ -221,30 +173,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>mapstruct</artifactId>
-                    <groupId>org.mapstruct</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>${org.apache.commons.commons-collections4.version}</version>
@@ -266,11 +194,6 @@
                     <groupId>org.apache.commons</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <dependency>
@@ -379,11 +302,6 @@
                     <target>${java.version}</target>
                     <annotationProcessorPaths>
                         <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${org.mapstruct.version}</version>
-                        </path>
-                        <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${org.lombok.version}</version>
@@ -394,10 +312,6 @@
                             <version>0.2.0</version>
                         </path>
                     </annotationProcessorPaths>
-                    <compilerArgs>
-                        <arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
-                        <arg>-Amapstruct.defaultComponentModel=spring</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
 
@@ -441,58 +355,6 @@
                         -Xverify:none -XX:TieredStopAtLevel=1 -XX:-TieredCompilation
                     </argLine>
                     <reportsDirectory>${project.build.directory}/test-reports/junit</reportsDirectory>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>${git.commit.id.maven.plugin.version}</version>
-                <configuration>
-                    <skip>${git-commit-id-plugin.skip}</skip>
-                    <commitIdGenerationMode>flat</commitIdGenerationMode>
-                    <offline>true</offline>
-                    <gitDescribe>
-                        <skip>true</skip>
-                    </gitDescribe>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>${jib.maven.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>dockerBuild</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <from>
-                        <!-- Cannot use alpine version because it is not supported for java 11  -->
-                        <!-- https://stackoverflow.com/questions/53375613/why-is-the-java-11-base-docker-image-so-large-openjdk11-jre-slim -->
-                        <image>openjdk:11-jre-slim</image>
-                    </from>
-                    <to>
-                        <image>${wrap.image.name}</image>
-                        <tags>
-                            <tag>${wrap.image.tag}</tag>
-                            <tag>latest</tag>
-                        </tags>
-                    </to>
-                    <container>
-                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
-                    </container>
                 </configuration>
             </plugin>
         </plugins>
