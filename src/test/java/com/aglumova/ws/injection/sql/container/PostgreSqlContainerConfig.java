@@ -1,7 +1,5 @@
 package com.aglumova.ws.injection.sql.container;
 
-import javax.validation.constraints.NotNull;
-
 import com.aglumova.ws.injection.sql.container.PostgreSqlContainerConfig.DbInitializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.util.TestPropertyValues;
@@ -40,7 +38,7 @@ public final class PostgreSqlContainerConfig {
   public static class DbInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     @Override
-    public void initialize(@NotNull final ConfigurableApplicationContext configurableApplicationContext) {
+    public void initialize(final ConfigurableApplicationContext configurableApplicationContext) {
       TestPropertyValues
         .of(
           "spring.datasource.url=" + getBaseDatasourceUrl() + "/ws",

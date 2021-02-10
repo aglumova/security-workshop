@@ -7,6 +7,7 @@ import javax.naming.directory.Attributes;
 
 import com.aglumova.ws.SecurityWsApplication;
 import com.aglumova.ws.injection.ldap.data.Person;
+import com.aglumova.ws.injection.sql.container.PostgreSqlContainerConfig;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,6 +30,9 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
     SecurityWsApplication.class
   },
   webEnvironment = WebEnvironment.RANDOM_PORT
+)
+@ContextConfiguration(
+  initializers = PostgreSqlContainerConfig.DbInitializer.class
 )
 @Log4j2
 public class LdapInjectionTest {
