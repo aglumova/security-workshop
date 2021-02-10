@@ -3,6 +3,7 @@
 The current repository contains top 10 Web Application Security Risks examples.
 
 * https://owasp.org/www-project-top-ten[OWASP Top 10]
+* https://github.com/aglumova/web-security-workshop/presentation/Hack_Yourself_First.pdf[Hack Yourself First Presentation]
 
 == Requirements to run tests on Java
 
@@ -16,9 +17,9 @@ Anything that your application receives from untrusted sources must be filtered,
 
 === SQL Injection
 
-==== Tests
+==== Examples
 
-* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/sql[SQL Injection Tests]
+* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/sql[SQL Injection]
 
 ==== References
 
@@ -27,9 +28,9 @@ Anything that your application receives from untrusted sources must be filtered,
 
 === LDAP Injection
 
-==== Tests
+==== Examples
 
-* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/ldap[LDAP Injection Tests]
+* https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/injection/ldap[LDAP Injection]
 
 ==== References
 
@@ -66,9 +67,9 @@ This is the most popular mechanism to prevent hijacking. With this strategy, you
 
 An excellent compromise between encrypting everything and encrypting nothing. We begin by establishing a normal HTTP session for a user when they first visit the site and allow them to view pages over HTTP. However, as soon as the user sees an HTTPS page, we set a secondary, HTTPS session id cookie without invalidating their previous session. Once the HTTPS cookie is set, every time that user requests an HTTPS, we validate not only the normal session id cookie, but also the secondary one. Therefore, a session hijacker would not be able to see any information that is served through HTTPS, as all sensitive information and actions should be!
 
-=== Tests
+=== Examples
 
-** https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/authentication[Authentication Tests]
+** https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/authentication[Authentication]
 
 === References
 
@@ -77,9 +78,9 @@ An excellent compromise between encrypting everything and encrypting nothing. We
 
 == Sensitive Data Exposure
 
-=== Tests
+=== Examples
 
-TBD
+** https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/sensitive[Sensitive Data]
 
 === References
 
@@ -87,7 +88,7 @@ TBD
 
 == Broken Access Control
 
-=== Tests
+=== Examples
 
 TBD
 
@@ -98,7 +99,7 @@ TBD
 
 == Security Misconfiguration
 
-=== Tests
+=== Examples
 
 TBD
 
@@ -111,7 +112,7 @@ TBD
 
 == Cross-Site Scripting (XSS)
 
-=== Example
+=== Examples
 
 ** https://github.com/aglumova/web-security-workshop/tree/main/src/test/resources/xss[XSS Example]
 
@@ -122,18 +123,18 @@ TBD
 
 == Insecure Deserialization
 
-=== Tests
+=== Examples
 
-TBD
+** https://github.com/aglumova/web-security-workshop/tree/main/src/test/java/com/aglumova/ws/deserialization[Insecure Deserialization Example]
 
 === References
 
-* https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization[Insecure Deserialization] (OWASP)
+* https://owasp.org/www-pdf-archive/GOD16-Deserialization.pdf[Insecure Deserialization] (OWASP)
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Deserialization_Cheat_Sheet.md[Insecure Deserialization Cheat Sheet]
 
 == Insecure Direct Object References
 
-=== Tests
+=== Examples
 
 TBD
 

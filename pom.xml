@@ -102,6 +102,13 @@
             <version>0.9.0</version>
         </dependency>
 
+        <!-- A proof-of-concept tool for generating payloads that exploit unsafe Java object deserialization.  -->
+        <dependency>
+            <groupId>com.github.frohoff</groupId>
+            <artifactId>ysoserial</artifactId>
+            <version>0.0.5</version>
+        </dependency>
+
         <dependency>
             <groupId>com.unboundid</groupId>
             <artifactId>unboundid-ldapsdk</artifactId>
@@ -491,4 +498,10 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 </project>
