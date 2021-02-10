@@ -73,7 +73,7 @@ An excellent compromise between encrypting everything and encrypting nothing. We
 
 === References
 
-* https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication[Broken Authentication] (OWASP)
+* https://auth0.com/blog/what-is-broken-authentication/[Broken Authentication]
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Authentication_Cheat_Sheet.md[Authentication Cheat Sheet]
 
 == Sensitive Data Exposure
@@ -84,7 +84,7 @@ An excellent compromise between encrypting everything and encrypting nothing. We
 
 === References
 
-* https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure[Sensitive Data Exposure] (OWASP)
+* https://thehackerish.com/sensitive-data-exposure-explained-owasp-top-10-vulnerabilities/[Sensitive Data Exposure]
 
 == Broken Access Control
 
@@ -94,7 +94,7 @@ TBD
 
 === References
 
-* https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control[Broken Access Control] (OWASP)
+* https://owasp.org/www-community/Broken_Access_Control[Broken Access Control]
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Access_Control_Cheat_Sheet.md[Access Control Cheat Sheet]
 
 == Security Misconfiguration
@@ -105,7 +105,7 @@ TBD
 
 === References
 
-* https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration[Security Misconfiguration] (OWASP)
+* https://thehackerish.com/owasp-security-misconfiguration-explained/[Security Misconfiguration]
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Database_Security_Cheat_Sheet.md[Database Security Cheat Sheet]
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Microservices_security.md[Microservice Security Cheat Sheet]
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/REST_Security_Cheat_Sheet.md[REST Security Cheat Sheet]
@@ -118,7 +118,7 @@ TBD
 
 === References
 
-* https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)[Cross-Site Scripting (XSS)] (OWASP)
+* https://owasp.org/www-community/attacks/xss/[Cross-Site Scripting (XSS)] (OWASP)
 * https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md[Cross Site Scripting Prevention Cheat Sheet]
 
 == Insecure Deserialization
