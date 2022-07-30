@@ -1,4 +1,4 @@
-= Security Workshop 
+= Security Workshop
 
 The current repository contains top 10 Web Application Security Risks examples.
 
